@@ -35,6 +35,7 @@ RUN npm install
 # Copy the frontend source code (main folder and public folder)
 COPY ./src/main ./src/main
 COPY ./src/main/public ./public
+COPY ./src/main/src ./src
 
 # Build the frontend application
 RUN npm run build
