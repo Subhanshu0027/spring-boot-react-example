@@ -10,10 +10,8 @@ module.exports = {
             'stompjs': __dirname + '/node_modules' + '/stompjs/lib/stomp.js',
         },
         fallback: {
-            net: require.resolve('net-browserify'),
-            tls: require.resolve('tls-browserify'), // If you're using TLS
-            fs: false, // If you're not using the fs module
-        }
+            net: false,
+        },
     },
     output: {
         path: __dirname,
@@ -32,8 +30,5 @@ module.exports = {
                 }]
             }
         ]
-    },
-	node: {
-        net: 'empty',
     },
 };
