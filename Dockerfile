@@ -27,7 +27,7 @@ COPY package-lock.json ./
 RUN npm install --unsafe-perm
 
 # Ensure react-scripts has the right permissions
-RUN chmod -R 755 /src/main/node_modules/react-scripts
+#RUN chmod -R 755 /src/main/node_modules/react-scripts
 
 # Install frontend dependencies
 RUN npm install
