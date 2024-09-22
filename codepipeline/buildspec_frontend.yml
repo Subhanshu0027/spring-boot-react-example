@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 752023216802.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - REPO_NAME="react-frontend-repo"
+      - IMAGE_TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)"
+  build:
+    commands:
+      - echo Build Docker image for React frontend...
+      - docker build -t $REPO_NAME:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Tagging and pushing Docker image to ECR...
+      - docker tag $REPO_NAME:$IMAGE_TAG 752023216802.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+      - docker push 752023216802.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+artifacts:
+  files:
+    - '**/*'
