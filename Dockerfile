@@ -22,6 +22,12 @@ WORKDIR /frontend
 # Copy package.json and package-lock.json
 COPY frontend/package*.json ./
 
+# Install dependencies with correct permissions
+RUN npm install --unsafe-perm
+
+# Ensure react-scripts has the right permissions
+RUN chmod -R 755 /frontend/node_modules/react-scripts
+
 # Install frontend dependencies
 RUN npm install
 
