@@ -1,21 +1,23 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js', // Adjust this to point to your entry file
+  entry: './src/main/index.js',
   output: {
+    path: path.resolve(__dirname, 'target/classes/static/built'),
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'target/classes/static/built'), // Adjust as needed
   },
-  mode: 'production',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
         },
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
 };
