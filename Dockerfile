@@ -17,7 +17,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 FROM node:14 AS frontend
 
 # Set working directory for frontend
-WORKDIR /src/main
+WORKDIR /app/src/main
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package.json ./
@@ -32,9 +32,9 @@ RUN npm install --unsafe-perm
 # Install frontend dependencies
 RUN npm install
 
-# Copy frontend files from src/main directory
-COPY src/main ./src/main
-COPY src/main/public ./public
+# Copy the frontend source code (main folder and public folder)
+COPY ./src/main ./src/main
+COPY ./src/main/public ./public
 
 # Build the frontend application
 RUN npm run build
@@ -42,8 +42,8 @@ RUN npm run build
 # Final stage to serve the application
 FROM nginx:alpine
 
-# Copy the built frontend files to the NGINX server's static directory
-COPY --from=build /src/main/build /usr/share/nginx/html
+# Copy the built frontend files from the previous stage
+COPY --from=frontend /app/src/main/build /usr/share/nginx/html
 
 # Expose the port NGINX will run on
 EXPOSE 80
