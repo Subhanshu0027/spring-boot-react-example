@@ -16,11 +16,12 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 # Use a multi-stage build for the frontend
 FROM node:14 AS frontend
 
-# Set the working directory for the frontend
-WORKDIR /frontend
+# Set working directory for frontend
+WORKDIR /app/src/main
 
-# Copy package.json and package-lock.json
-COPY frontend/package*.json ./
+# Copy package.json and package-lock.json to install dependencies
+COPY package.json ./
+COPY package-lock.json ./
 
 # Install dependencies with correct permissions
 RUN npm install --unsafe-perm
@@ -31,8 +32,8 @@ RUN chmod -R 755 /frontend/node_modules/react-scripts
 # Install frontend dependencies
 RUN npm install
 
-# Copy the frontend source code
-COPY frontend/ ./
+# Copy frontend files from src/main directory
+COPY src/main ./src/main
 
 # Build the frontend application
 RUN npm run build
@@ -40,13 +41,10 @@ RUN npm run build
 # Final stage to serve the application
 FROM nginx:alpine
 
-# Copy the built frontend files from the previous stage
-COPY --from=frontend /frontend/build /usr/share/nginx/html
+# Copy the built frontend files to the NGINX server's static directory
+COPY --from=build /app/src/main/build /usr/share/nginx/html
 
-# Copy the nginx configuration file (if you have one)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80 for the frontend
+# Expose the port NGINX will run on
 EXPOSE 80
 
 # Start nginx
