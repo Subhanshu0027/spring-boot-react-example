@@ -34,6 +34,7 @@ RUN npm install
 
 # Copy frontend files from src/main directory
 COPY src/main ./src/main
+COPY src/main/public ./public
 
 # Build the frontend application
 RUN npm run build
