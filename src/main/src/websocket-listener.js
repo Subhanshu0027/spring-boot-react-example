@@ -1,19 +1,21 @@
 'use strict';
 
 const SockJS = require('sockjs-client');
-require('stompjs');
+const { Client } = require('@stomp/stompjs'); // Correct import
 
 function register(registrations) {
-	const socket = SockJS('/payroll');
-	const stompClient = Stomp.over(socket);
-	stompClient.connect({}, function(frame) {
-		registrations.forEach(function (registration) {
-			stompClient.subscribe(registration.route, registration.callback);
-		});
-	});
+    const socket = SockJS('/payroll');
+    const stompClient = new Client({
+        webSocketFactory: () => socket,
+        // Additional stompClient options can go here
+    });
+    stompClient.connect({}, function(frame) {
+        registrations.forEach(function (registration) {
+            stompClient.subscribe(registration.route, registration.callback);
+        });
+    });
 }
 
 module.exports = {
-	register: register
+    register: register,
 };
-
