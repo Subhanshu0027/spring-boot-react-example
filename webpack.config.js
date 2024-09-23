@@ -7,10 +7,11 @@ module.exports = {
     mode: 'development',
     resolve: {
         alias: {
-            'stompjs': __dirname + '/node_modules' + '/stompjs/lib/stomp.js',
+            // Update this alias to use @stomp/stompjs
+            'stompjs': __dirname + '/node_modules' + '/@stomp/stompjs/lib/stomp.js',
         },
         fallback: {
-            net: false,
+            net: false, // fallback for the net module
         },
     },
     output: {

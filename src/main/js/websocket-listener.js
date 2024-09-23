@@ -1,7 +1,7 @@
 'use strict';
 
 const SockJS = require('sockjs-client');
-require('stompjs');
+require('@stomp/stompjs');
 
 function register(registrations) {
 	const socket = SockJS('/payroll');
