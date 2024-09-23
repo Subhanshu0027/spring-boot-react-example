@@ -16,6 +16,10 @@ phases:
       - echo Tagging and pushing Docker image to ECR...
       - docker tag $REPO_NAME:$IMAGE_TAG 752023216802.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
       - docker push 752023216802.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPO_NAME:$IMAGE_TAG
+      - echo Creating imagedefinitions.json file...
+      - echo '[{"name":"'$REPO_NAME'","imageUri":"752023216802.dkr.ecr.'$AWS_DEFAULT_REGION'.amazonaws.com/'$REPO_NAME':'$IMAGE_TAG'"}]' > imagedefinitions.json
+
 artifacts:
   files:
+    - imagedefinitions.json
     - '**/*'
