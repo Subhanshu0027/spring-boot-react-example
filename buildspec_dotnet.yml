@@ -4,7 +4,8 @@ phases:
   install:
     commands:
       - echo Installing .NET Core...
-      - yum install -y dotnet-sdk-6.0  # Adjust based on your .NET Core version
+      - apt-get update -y
+      - apt-get install -y dotnet-sdk-6.0
 
   pre_build:
     commands:
