@@ -24,10 +24,10 @@ phases:
       echo Pushing the Docker image...
       docker push 752023216802.dkr.ecr.us-east-1.amazonaws.com/dotnet:latest
 
-      # # Deploy the Docker container to EC2 (update with your deployment commands)
+      # Deploy the Docker container to EC2 (update with your deployment commands)
       # echo Deploying to EC2...
-      # # Use SSH to deploy the container (ensure SSH access is set up)
-      # ssh -o StrictHostKeyChecking=no -i /path/to/your/key.pem ec2-user@your-ec2-instance-ip "docker pull your-account-id.dkr.ecr.your-region.amazonaws.com/aspnet-core-dotnet-core:latest && docker stop aspnet-core-dotnet-core || true && docker rm aspnet-core-dotnet-core || true && docker run -d -p 8080:80 --name aspnet-core-dotnet-core your-account-id.dkr.ecr.your-region.amazonaws.com/aspnet-core-dotnet-core:latest"
+      # Use SSH to deploy the container (ensure SSH access is set up)
+      # ssh -o StrictHostKeyChecking=no -i /path/to/your/key.pem ec2-user@your-ec2-instance-ip "docker pull 752023216802.dkr.ecr.us-east-1.amazonaws.com/dotnet:latest && docker stop aspnet-core-dotnet-core || true && docker rm aspnet-core-dotnet-core || true && docker run -d -p 8080:80 --name aspnet-core-dotnet-core 752023216802.dkr.ecr.us-east-1.amazonaws.com/dotnet:latest"
 
 artifacts:
   files:
