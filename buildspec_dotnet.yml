@@ -27,12 +27,12 @@ phases:
       - dotnet publish --configuration Release --output out
       - zip -r application.zip ./out/*
       
-      # Assuming SSH access to EC2 for deployment
-      - echo Deploying to EC2 instance...
-      - scp -i /path/to/key.pem application.zip ec2-user@your-ec2-instance:/path/to/deploy
+      # # Assuming SSH access to EC2 for deployment
+      # - echo Deploying to EC2 instance...
+      # - scp -i /path/to/key.pem application.zip ec2-user@your-ec2-instance:/path/to/deploy
 
-      # SSH into the EC2 instance and unzip, then restart your service
-      - ssh -i /path/to/key.pem ec2-user@your-ec2-instance 'unzip /path/to/deploy/application.zip -d /var/www/app && systemctl restart your-app-service'
+      # # SSH into the EC2 instance and unzip, then restart your service
+      # - ssh -i /path/to/key.pem ec2-user@your-ec2-instance 'unzip /path/to/deploy/application.zip -d /var/www/app && systemctl restart your-app-service'
 
 artifacts:
   files:
