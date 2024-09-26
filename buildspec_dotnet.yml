@@ -2,38 +2,33 @@ version: 0.2
 
 phases:
   install:
-    commands:
-      - echo Installing .NET Core...
-      - apt-get update -y
-      - apt-get install -y dotnet-sdk-6.0
-
+    runtime-versions:
+      docker: 18
   pre_build:
     commands:
-      - echo Restoring NuGet packages...
-      - dotnet restore
-
+      # Login to AWS ECR
+      echo Logging in to Amazon ECR...
+      aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 752023216802.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo Building the .NET Core application...
-      - dotnet build --configuration Release
+      # Build the Docker image
+      echo Building the Docker image...
+      docker build -t aspnet-core-dotnet-core .
 
+      # Tag the Docker image
+      echo Tagging the Docker image...
+      docker tag aspnet-core-dotnet-core:latest 752023216802.dkr.ecr.us-east-1.amazonaws.com/dotnet:latest
   post_build:
     commands:
-      - echo Running tests...
-      - dotnet test
+      # Push the Docker image to ECR
+      echo Pushing the Docker image...
+      docker push 752023216802.dkr.ecr.us-east-1.amazonaws.com/dotnet:latest
 
-      # Create the deployment package (zip) for EC2
-      - echo Packaging the application...
-      - dotnet publish --configuration Release --output out
-      - zip -r application.zip ./out/*
-      
-      # # Assuming SSH access to EC2 for deployment
-      # - echo Deploying to EC2 instance...
-      # - scp -i /path/to/key.pem application.zip ec2-user@your-ec2-instance:/path/to/deploy
-
-      # # SSH into the EC2 instance and unzip, then restart your service
-      # - ssh -i /path/to/key.pem ec2-user@your-ec2-instance 'unzip /path/to/deploy/application.zip -d /var/www/app && systemctl restart your-app-service'
+      # # Deploy the Docker container to EC2 (update with your deployment commands)
+      # echo Deploying to EC2...
+      # # Use SSH to deploy the container (ensure SSH access is set up)
+      # ssh -o StrictHostKeyChecking=no -i /path/to/your/key.pem ec2-user@your-ec2-instance-ip "docker pull your-account-id.dkr.ecr.your-region.amazonaws.com/aspnet-core-dotnet-core:latest && docker stop aspnet-core-dotnet-core || true && docker rm aspnet-core-dotnet-core || true && docker run -d -p 8080:80 --name aspnet-core-dotnet-core your-account-id.dkr.ecr.your-region.amazonaws.com/aspnet-core-dotnet-core:latest"
 
 artifacts:
   files:
-    - application.zip
+    - '**/*'
