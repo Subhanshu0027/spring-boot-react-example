@@ -16,7 +16,7 @@ phases:
       - echo Pushing image now...
       # - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
-      - printf '[{"name":"aspnet-core-dotnet-core","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"aspnet-core-dotnet-core","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
 artifacts:
   files: 
     - imagedefinitions.json
